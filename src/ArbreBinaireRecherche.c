@@ -5,7 +5,7 @@
 #include "ArbreBinaire.h"
 #include "ArbreBinaireRecherche.h"
 
-#define SEPARATORS " \n,;:.?!\\\"()-'"
+#define SEPARATORS " \n,;:.?!\\\"()-'’"
 
 Noeud* ABR_recherche(Arbre a, Element n) {
     while (a && a->valeur != n) {
@@ -97,22 +97,6 @@ Element ABR_max(Arbre a) {
         return a->valeur;
     return ABR_max(a->fd);
 }
-
-/*bool ABR_est_recherche_sans_doublon(Arbre a) {
-    if (IS_EMPTY_TREE(a)) {
-        return true;
-    }
-    if (LEFT_NODE(a) && (LEFT_NODE(a)->valeur == a->valeur)) {
-        return false;
-    }
-    bool is_abr_left = a->fg ? ArbreB_max(a->fg) <= a->valeur : 1;
-    bool is_abr_right = a->fd ? a->valeur < ArbreB_min(a->fd) : 1;
-
-    return (
-        is_abr_left && is_abr_right &&
-        ABR_est_recherche_sans_doublon(LEFT_NODE(a)) && ABR_est_recherche_sans_doublon(RIGHT_NODE(a))
-    );
-}*/
 
 bool ABR_appartient(Arbre a, Element n) {
     while (a) {
