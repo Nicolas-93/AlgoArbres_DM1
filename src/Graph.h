@@ -1,5 +1,5 @@
-#ifndef __GRAPH_H__
-#define __GRAPH_H__
+#ifndef GRAPH_INCLUDED
+#define GRAPH_INCLUDED
 
 #include "ArbreBinaire.h"
 

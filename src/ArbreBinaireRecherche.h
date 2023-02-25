@@ -1,5 +1,5 @@
-#ifndef __ABR_H__
-#define __ABR_H__
+#ifndef ABR_INCLUDED
+#define ABR_INCLUDED
 
 #include <stdbool.h>
 #include <string.h>

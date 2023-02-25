@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AB_INCLUDED
+#define AB_INCLUDED
+
 #include <stdio.h>
 #include <string.h>
 
@@ -45,3 +47,4 @@ void ArbreB_parcours_infix(Arbre a, FILE* f, const char* format);
 void ArbreB_parcours_postfix(Arbre a, FILE* f, const char* format);
 void ArbreB_list(Arbre a, FILE* out, void (*traversal)(Arbre, FILE*, const char* format));
 
+#endif
