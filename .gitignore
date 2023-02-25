@@ -4,6 +4,8 @@ rapport.pdf
 build/
 logos/
 tmp/
+*.pdf
+*.dot
 
 # Prerequisites
 *.d
