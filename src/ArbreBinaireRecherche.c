@@ -24,7 +24,7 @@ Noeud* ABR_ajout(Arbre* a, Element n) {
         return *a;
     }
     if (EQUALS((*a)->valeur, n))
-        return *a;
+        return NULL;
     if (LESS_THAN(n, (*a)->valeur))
         return ABR_ajout(&LEFT_NODE(*a), n);
     else
@@ -116,27 +116,41 @@ bool ABR_appartient(Arbre a, Element n) {
  * 
  * @param nom Le nom du fichier à lire.
  * @param a L'arbre à remplir.
+ * @return 0 en cas d'erreur d'ouverture du fichier, -1 en cas d'erreur
+ * d'allocation, 1 sinon
  */
 int ABR_cree_arbre(const char* nom, Arbre* a) {
     FILE* f = fopen(nom, "r");
-    if (!f)
-        return 0;
+    if (!f) return 0;
 
+    bool memerr = false;
     char* mot;
-
     char* line = NULL;
     size_t len_buf = 0;
     ssize_t len_line;
 
     while ((len_line = getline(&line, &len_buf, f)) != EOF) {
         for (char* token = strtok(line, SEPARATORS); token; token = strtok(NULL, SEPARATORS)) {
-            mot = malloc((strlen(token) + 1) * sizeof(char));
-            mot = strcpy(mot, token);
-            ABR_ajout(a, mot);
+            mot = strdup(token);
+            if (!mot) {
+                memerr = true;
+                break;
+            }
+            if (!ABR_ajout(a, mot)) {
+                free(mot);
+            }
         }
+        if (memerr)
+            break;
     }
+
+    // Nettoyage
     fclose(f);
     free(line);
 
+    if (memerr) {
+        ArbreB_free(a);
+        return 0;
+    }
     return 1;
 }
