@@ -1,9 +1,9 @@
 #define _GNU_SOURCE
 
+#include "ArbreBinaireRecherche.h"
+#include "ArbreBinaire.h"
 #include <stdbool.h>
 #include <stdlib.h>
-#include "ArbreBinaire.h"
-#include "ArbreBinaireRecherche.h"
 
 #define SEPARATORS " \n,;:.?!\\\"()-'’"
 
@@ -11,8 +11,7 @@ Noeud* ABR_recherche(Arbre a, Element n) {
     while (a && a->valeur != n) {
         if (LESS_OR_EQUAL(n, a->valeur)) {
             a = a->fg;
-        }
-        else
+        } else
             a = a->fd;
     }
     return a;
@@ -46,7 +45,7 @@ Arbre ABR_supprime(Arbre* a, Element n) {
         *a = NULL;
         return tree;
     }
-    
+
     // Cas simples où un des deux des sous arbre est nul.
     if (IS_EMPTY_TREE(tree->fg)) {
         *a = (*a)->fd;
@@ -111,9 +110,10 @@ bool ABR_appartient(Arbre a, Element n) {
 }
 
 /**
- * @brief Crée l'arbre avec un fichier contenant des mots séparés par des séparateurs.
- * 
- * 
+ * @brief Crée l'arbre avec un fichier contenant des mots séparés par des
+ * séparateurs.
+ *
+ *
  * @param nom Le nom du fichier à lire.
  * @param a L'arbre à remplir.
  * @return 0 en cas d'erreur d'ouverture du fichier, -1 en cas d'erreur
@@ -121,7 +121,8 @@ bool ABR_appartient(Arbre a, Element n) {
  */
 int ABR_cree_arbre(const char* nom, Arbre* a) {
     FILE* f = fopen(nom, "r");
-    if (!f) return 0;
+    if (!f)
+        return 0;
 
     bool memerr = false;
     char* mot;
@@ -130,7 +131,8 @@ int ABR_cree_arbre(const char* nom, Arbre* a) {
     ssize_t len_line;
 
     while ((len_line = getline(&line, &len_buf, f)) != EOF) {
-        for (char* token = strtok(line, SEPARATORS); token; token = strtok(NULL, SEPARATORS)) {
+        for (char* token = strtok(line, SEPARATORS); token;
+             token = strtok(NULL, SEPARATORS)) {
             mot = strdup(token);
             if (!mot) {
                 memerr = true;

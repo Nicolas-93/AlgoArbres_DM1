@@ -1,14 +1,11 @@
 #define _GNU_SOURCE
+#include "ArbreBinaire.h"
+#include "ArbreBinaireRecherche.h"
+#include "Graph.h"
+#include "errno.h"
+#include "string.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "ArbreBinaireRecherche.h"
-#include "ArbreBinaire.h"
-#include "Graph.h"
-#include "string.h"
-#include "errno.h"
-
-#define println(format, ...) printf(format"\n", ##__VA_ARGS__)
-#define pretty_bool(val) (!!(val) ? "Oui" : "Non")
 
 Arbre interactive_build_tree(FILE* f);
 
@@ -18,8 +15,7 @@ int main(int argc, char* argv[]) {
 
     if (argc == 1) {
         tree = interactive_build_tree(stdin);
-    }
-    else if (argc == 2) {
+    } else if (argc == 2) {
         if (!ABR_cree_arbre("filtre.txt", &tree)) {
             fprintf(stderr, "%s\n", strerror(errno));
             return EXIT_FAILURE;
@@ -32,7 +28,6 @@ int main(int argc, char* argv[]) {
 
     return EXIT_SUCCESS;
 }
-
 
 Arbre interactive_build_tree(FILE* f) {
     Arbre tree;
@@ -48,7 +43,7 @@ Arbre interactive_build_tree(FILE* f) {
     while (1) {
         Graph_cree_graph("test.dot", "test.pdf", tree);
         mot = malloc(256 * sizeof(char));
-        
+
         printf(">>> ");
         user_len = getline(&user_line, &buffer_size, f);
         n_read = sscanf(user_line, "%c %s", &op, mot);
@@ -78,7 +73,6 @@ Arbre interactive_build_tree(FILE* f) {
             fprintf(stderr, "Erreur dans la commande\n");
             continue;
         }
-    
     }
 
     free(mot);

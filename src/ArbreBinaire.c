@@ -1,11 +1,10 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "ArbreBinaire.h"
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 Arbre ArbreB_alloue_noeud(Element val) {
-    Noeud *n;
+    Noeud* n;
     if ((n = malloc(sizeof(Noeud)))) {
         n->fg = NULL;
         n->fd = NULL;
@@ -14,7 +13,7 @@ Arbre ArbreB_alloue_noeud(Element val) {
     return n;
 }
 
-void ArbreB_free(Arbre *a) {
+void ArbreB_free(Arbre* a) {
     if (IS_EMPTY_TREE(*a))
         return;
 
@@ -73,7 +72,8 @@ int ArbreB_est_strictement_binaire(Arbre a) {
         return 1;
     if (!IS_BINARY_NODE(a))
         return 0;
-    return ArbreB_est_strictement_binaire(a->fd) && ArbreB_est_strictement_binaire(a->fd);
+    return ArbreB_est_strictement_binaire(a->fd) &&
+           ArbreB_est_strictement_binaire(a->fd);
 }
 
 Element ArbreB_min(Arbre a) {
@@ -101,18 +101,23 @@ Element ArbreB_max(Arbre a) {
 }
 
 void ArbreB_print_stats(Arbre a) {
-    printf("Est strictement binaire : %s\n"
-           "Hauteur: %d\n"
-           "Nombre de noeuds: %d\n"
-           "Nombre de feuilles: %d\n"
-           "Nombre de noeuds internes: %d\n"
-           "Nombre de noeuds internes à deux fils: %d\n"
-           "Minimum : %s\n"
-           "Maximum : %s\n",
-           ArbreB_est_strictement_binaire(a) ? "Oui" : "Non",
-           ArbreB_height(a), ArbreB_nb_nodes(a), ArbreB_nb_leafs(a),
-           ArbreB_nb_intern_nodes(a), ArbreB_nb_complete_nodes(a),
-           ArbreB_min(a), ArbreB_max(a));
+    printf(
+        "Est strictement binaire : %s\n"
+        "Hauteur: %d\n"
+        "Nombre de noeuds: %d\n"
+        "Nombre de feuilles: %d\n"
+        "Nombre de noeuds internes: %d\n"
+        "Nombre de noeuds internes à deux fils: %d\n"
+        "Minimum : %s\n"
+        "Maximum : %s\n",
+        ArbreB_est_strictement_binaire(a) ? "Oui" : "Non",
+        ArbreB_height(a),
+        ArbreB_nb_nodes(a),
+        ArbreB_nb_leafs(a),
+        ArbreB_nb_intern_nodes(a),
+        ArbreB_nb_complete_nodes(a),
+        ArbreB_min(a),
+        ArbreB_max(a));
 }
 
 void ArbreB_parcours_prefix(Arbre a, FILE* f, const char* format) {
@@ -143,7 +148,8 @@ void ArbreB_parcours_postfix(Arbre a, FILE* f, const char* format) {
     fprintf(f, format, a->valeur);
 }
 
-void ArbreB_list(Arbre a, FILE* out, void (*traversal)(Arbre, FILE*, const char* format)) {
+void ArbreB_list(
+    Arbre a, FILE* out, void (*traversal)(Arbre, FILE*, const char* format)) {
     putchar('[');
     traversal(a, out, "%s, ");
     printf("\b\b]\n");

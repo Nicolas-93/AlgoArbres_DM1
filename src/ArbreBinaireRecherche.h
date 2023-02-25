@@ -22,7 +22,6 @@ Noeud* ABR_recherche(Arbre a, Element n);
 bool ABR_appartient(Arbre a, Element n);
 Noeud* ABR_ajout(Arbre* a, Element n);
 Arbre ABR_supprime(Arbre* a, Element n);
-bool ABR_est_recherche_sans_doublon(Arbre a);
 
 int ABR_cree_arbre(const char* nom, Arbre* a);
 

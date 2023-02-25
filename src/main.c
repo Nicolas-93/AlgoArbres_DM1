@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "ArbreBinaireRecherche.h"
 #include "Graph.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char* argv[]) {
     Arbre dico;
@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
     strcpy(s5, "cela");
     char* s6 = malloc(256 * sizeof(char));
     strcpy(s6, "marche");
-
 
     ABR_ajout(&dico, s1);
     ABR_ajout(&dico, s2);

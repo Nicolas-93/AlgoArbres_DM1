@@ -1,10 +1,10 @@
+#include "ArbreBinaireRecherche.h"
+#include "Graph.h"
+#include <errno.h>
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <getopt.h>
-#include <errno.h>
-#include "ArbreBinaireRecherche.h"
-#include "Graph.h"
 
 #define OUTDIR "output/"
 #define COLOR_GREEN "\x1b[32;49;1;4m"
@@ -22,7 +22,7 @@ typedef struct Parameters {
     char* filename_filtre;
 } Parameters;
 
-int filtrer(Arbre* A, const Arbre filtre, Arbre *utilises);
+int filtrer(Arbre* a, const Arbre filtre, Arbre* utilises);
 Parameters parse_args(int argc, char* argv[]);
 void print_help(char* name);
 int create_trees(Parameters params);
@@ -40,7 +40,7 @@ Parameters parse_args(int argc, char* argv[]) {
 
     while ((opt = getopt(argc, argv, "hv")) != EOF) {
         switch (opt) {
-            
+
         case 'v':
             params.filtre = true;
             params.texte = true;
@@ -71,37 +71,36 @@ void print_help(char* name) {
     printf(
         "Utilisation : %s [-OPTIONS] [fichier_texte] [fichier_filtre]\n"
         "options :\n"
-        "   -v : Verbeux, crée une représentation en .dot et .pdf des arbres construits\n"
-        "   -h : Ce message d'aide\n", name
-    );
+        "   -v : Verbeux, crée une représentation en .dot et .pdf des arbres "
+        "construits\n"
+        "   -h : Ce message d'aide\n",
+        name);
 }
 
-
-int filtrer(Arbre* A, const Arbre filtre, Arbre *utilises) {
+int filtrer(Arbre* a, const Arbre filtre, Arbre* utilises) {
     Noeud* found;
     Element e;
 
-    if (IS_EMPTY_TREE(*A) || IS_EMPTY_TREE(filtre)) {
+    if (IS_EMPTY_TREE(*a) || IS_EMPTY_TREE(filtre)) {
         return 0;
     }
 
-    filtrer(A, filtre->fg, utilises);
+    filtrer(a, filtre->fg, utilises);
 
-    if ((found = ABR_supprime(A, filtre->valeur))) {
+    if ((found = ABR_supprime(a, filtre->valeur))) {
         e = found->valeur;
         free(found);
         // Si un mot était déjà dans utilises, on libere
-        // celui récupéré 
+        // celui récupéré
         if (!ABR_ajout(utilises, e)) {
             free(e);
         }
     }
 
-    filtrer(A, filtre->fd, utilises);
+    filtrer(a, filtre->fd, utilises);
 
-    return 1;   
+    return 1;
 }
-
 
 int create_trees(Parameters params) {
     Arbre texte, filtre, commun;
@@ -116,24 +115,27 @@ int create_trees(Parameters params) {
     }
 
     if (params.create_pdfs) {
-        Graph_cree_graph(OUTDIR"texte.dot", OUTDIR"texte.pdf", texte);
-        Graph_cree_graph(OUTDIR"filtre.dot", OUTDIR"filtre.pdf", filtre);
+        Graph_cree_graph(OUTDIR "texte.dot", OUTDIR "texte.pdf", texte);
+        Graph_cree_graph(OUTDIR "filtre.dot", OUTDIR "filtre.pdf", filtre);
     }
 
     filtrer(&texte, filtre, &commun);
 
     if (params.texte_moins_filtre) {
-        printf(COLOR_GREEN"Mots présents uniquement dans le texte de référence :\n"COLOR_RESET);
+        printf(COLOR_GREEN "Mots présents uniquement dans le texte de "
+                           "référence :\n" COLOR_RESET);
         ArbreB_parcours_infix(texte, stdout, "%s\n");
     }
     if (params.texte_inter_filtre) {
-        printf(COLOR_YELLOW"Mots présents dans les deux textes :\n"COLOR_RESET);
+        printf(COLOR_YELLOW
+               "Mots présents dans les deux textes :\n" COLOR_RESET);
         ArbreB_parcours_infix(commun, stdout, "%s\n");
     }
 
     if (params.create_pdfs) {
-        Graph_cree_graph(OUTDIR"filtrage.dot", OUTDIR"filtrage.pdf", texte);
-        Graph_cree_graph(OUTDIR"en_commun.dot", OUTDIR"en_commun.pdf", commun);
+        Graph_cree_graph(OUTDIR "filtrage.dot", OUTDIR "filtrage.pdf", texte);
+        Graph_cree_graph(
+            OUTDIR "en_commun.dot", OUTDIR "en_commun.pdf", commun);
     }
 
     ArbreB_free(&texte);
@@ -142,7 +144,6 @@ int create_trees(Parameters params) {
 
     return 1;
 }
-
 
 int main(int argc, char* argv[]) {
     Parameters params = parse_args(argc, argv);
