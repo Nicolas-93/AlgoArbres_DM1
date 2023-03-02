@@ -1,9 +1,7 @@
 #define _GNU_SOURCE
-#include "ArbreBinaire.h"
-#include "ArbreBinaireRecherche.h"
-#include "Graph.h"
-#include "errno.h"
-#include "string.h"
+#include "ABR.h"
+#include <errno.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,19 +10,20 @@ Arbre interactive_build_tree(FILE* f);
 int main(int argc, char* argv[]) {
 
     Arbre tree;
+    BTREE_INIT(tree);
 
     if (argc == 1) {
         tree = interactive_build_tree(stdin);
     } else if (argc == 2) {
-        if (!ABR_cree_arbre("filtre.txt", &tree)) {
+        if (!cree_arbre("filtre.txt", &tree)) {
             fprintf(stderr, "%s\n", strerror(errno));
             return EXIT_FAILURE;
         }
         ArbreB_list(tree, stdout, ArbreB_parcours_infix);
-        // Graph_cree_graph("test.dot", "test.pdf", tree);
+        dessine("test", tree);
     }
 
-    ArbreB_free(&tree);
+    libere(&tree);
 
     return EXIT_SUCCESS;
 }
@@ -41,7 +40,7 @@ Arbre interactive_build_tree(FILE* f) {
     size_t buffer_size;
 
     while (1) {
-        Graph_cree_graph("test.dot", "test.pdf", tree);
+        dessine("test", tree);
         mot = malloc(256 * sizeof(char));
 
         printf(">>> ");
@@ -59,12 +58,13 @@ Arbre interactive_build_tree(FILE* f) {
         } else if (n_read == 2) {
             switch (op) {
             case 'a':
-                ABR_ajout(&tree, mot);
+                ajout(&tree, mot);
                 break;
             case 'd':
-                node = ABR_supprime(&tree, mot);
-                free(node->valeur);
-                free(node);
+                node = supprime(&tree, mot);
+                libere_noeud(node);
+                // free(node->valeur);
+                // free(node);
                 break;
             default:
                 fprintf(stderr, "Commande inconnue\n");

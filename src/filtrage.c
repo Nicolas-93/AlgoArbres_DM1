@@ -1,5 +1,4 @@
-#include "ArbreBinaireRecherche.h"
-#include "Graph.h"
+#include "ABR.h"
 #include <errno.h>
 #include <getopt.h>
 #include <stdio.h>
@@ -87,12 +86,12 @@ int filtrer(Arbre* a, const Arbre filtre, Arbre* utilises) {
 
     filtrer(a, filtre->fg, utilises);
 
-    if ((found = ABR_supprime(a, filtre->valeur))) {
+    if ((found = supprime(a, filtre->valeur))) {
         e = found->valeur;
         free(found);
         // Si un mot était déjà dans utilises, on libere
         // celui récupéré
-        if (!ABR_ajout(utilises, e)) {
+        if (!ajout(utilises, e)) {
             free(e);
         }
     }
@@ -109,14 +108,14 @@ int create_trees(Parameters params) {
     BTREE_INIT(filtre);
     BTREE_INIT(commun);
 
-    if (!ABR_cree_arbre(params.filename_texte, &texte) ||
-        !ABR_cree_arbre(params.filename_filtre, &filtre)) {
+    if (!cree_arbre(params.filename_texte, &texte) ||
+        !cree_arbre(params.filename_filtre, &filtre)) {
         return 0;
     }
 
     if (params.create_pdfs) {
-        Graph_cree_graph(OUTDIR "texte.dot", OUTDIR "texte.pdf", texte);
-        Graph_cree_graph(OUTDIR "filtre.dot", OUTDIR "filtre.pdf", filtre);
+        dessine(OUTDIR "texte", texte);
+        dessine(OUTDIR "filtre", filtre);
     }
 
     filtrer(&texte, filtre, &commun);
@@ -133,14 +132,13 @@ int create_trees(Parameters params) {
     }
 
     if (params.create_pdfs) {
-        Graph_cree_graph(OUTDIR "filtrage.dot", OUTDIR "filtrage.pdf", texte);
-        Graph_cree_graph(
-            OUTDIR "en_commun.dot", OUTDIR "en_commun.pdf", commun);
+        dessine(OUTDIR "filtrage", texte);
+        dessine(OUTDIR "en_commun", commun);
     }
 
-    ArbreB_free(&texte);
-    ArbreB_free(&filtre);
-    ArbreB_free(&commun);
+    libere(&texte);
+    libere(&filtre);
+    libere(&commun);
 
     return 1;
 }
