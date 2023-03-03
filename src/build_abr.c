@@ -7,21 +7,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Arbre interactive_build_tree(FILE* f);
+Arbre interactive_build_tree();
 
 int main(int argc, char* argv[]) {
 
     Arbre tree;
 
     if (argc == 1) {
-        tree = interactive_build_tree(stdin);
+        tree = interactive_build_tree();
     } else if (argc == 2) {
-        if (!ABR_cree_arbre("filtre.txt", &tree)) {
+        if (!ABR_cree_arbre(argv[1], &tree)) {
             fprintf(stderr, "%s\n", strerror(errno));
             return EXIT_FAILURE;
         }
-        ArbreB_list(tree, stdout, ArbreB_parcours_infix);
-        // Graph_cree_graph("test.dot", "test.pdf", tree);
+        Graph_cree_graph("test.dot", "test.pdf", tree);
     }
 
     ArbreB_free(&tree);
@@ -29,7 +28,7 @@ int main(int argc, char* argv[]) {
     return EXIT_SUCCESS;
 }
 
-Arbre interactive_build_tree(FILE* f) {
+Arbre interactive_build_tree() {
     Arbre tree;
     Noeud* node;
     BTREE_INIT(tree);
@@ -45,7 +44,7 @@ Arbre interactive_build_tree(FILE* f) {
         mot = malloc(256 * sizeof(char));
 
         printf(">>> ");
-        user_len = getline(&user_line, &buffer_size, f);
+        user_len = getline(&user_line, &buffer_size, stdin);
         n_read = sscanf(user_line, "%c %s", &op, mot);
 
         if (user_len == EOF) {
