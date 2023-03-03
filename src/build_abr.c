@@ -36,8 +36,8 @@ Arbre interactive_build_tree(FILE* f) {
     int n_read = 0;
     char op;
     char* user_line = NULL;
-    size_t user_len;
-    size_t buffer_size;
+    size_t user_len = 0;
+    size_t buffer_size = 0;
 
     while (1) {
         dessine("test", tree);
@@ -58,13 +58,13 @@ Arbre interactive_build_tree(FILE* f) {
         } else if (n_read == 2) {
             switch (op) {
             case 'a':
-                ajout(&tree, mot);
+                if (!ajout(&tree, mot)) {
+                    free(mot);
+                }
                 break;
             case 'd':
                 node = supprime(&tree, mot);
                 libere_noeud(node);
-                // free(node->valeur);
-                // free(node);
                 break;
             default:
                 fprintf(stderr, "Commande inconnue\n");
@@ -73,6 +73,8 @@ Arbre interactive_build_tree(FILE* f) {
             fprintf(stderr, "Erreur dans la commande\n");
             continue;
         }
+        if (op != 'a')
+            free(mot);
     }
 
     free(mot);
