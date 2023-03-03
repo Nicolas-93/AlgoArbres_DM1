@@ -238,16 +238,6 @@ bool appartient(Arbre a, Element n) {
     return false;
 }
 
-/**
- * @brief Crée l'arbre avec un fichier contenant des mots séparés par des
- * séparateurs.
- *
- *
- * @param nom Le nom du fichier à lire.
- * @param a L'arbre à remplir.
- * @return 0 en cas d'erreur d'ouverture du fichier, -1 en cas d'erreur
- * d'allocation, 1 sinon
- */
 int cree_arbre(const char* nom, Arbre* a) {
     FILE* f = fopen(nom, "r");
     if (!f)
