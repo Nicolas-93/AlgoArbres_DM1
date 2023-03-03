@@ -37,8 +37,8 @@ Arbre interactive_build_tree(FILE* f) {
     int n_read = 0;
     char op;
     char* user_line = NULL;
-    size_t user_len;
-    size_t buffer_size;
+    size_t user_len = 0;
+    size_t buffer_size = 0;
 
     while (1) {
         Graph_cree_graph("test.dot", "test.pdf", tree);
@@ -59,7 +59,9 @@ Arbre interactive_build_tree(FILE* f) {
         } else if (n_read == 2) {
             switch (op) {
             case 'a':
-                ABR_ajout(&tree, mot);
+                if (!ABR_ajout(&tree, mot)) {
+                    free(mot);
+                }
                 break;
             case 'd':
                 node = ABR_supprime(&tree, mot);
@@ -73,6 +75,8 @@ Arbre interactive_build_tree(FILE* f) {
             fprintf(stderr, "Erreur dans la commande\n");
             continue;
         }
+        if (op != 'a')
+            free(mot);
     }
 
     free(mot);
