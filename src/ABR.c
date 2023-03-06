@@ -218,8 +218,8 @@ Arbre supprime(Arbre* a, Element n) {
     }
 
     // Cas où le noeud possède deux sous-arbres non nuls
-    Arbre a_min = extract_min(&((*a)->fd));
-    *a = a_min;
+    Arbre a_max = extract_max(&((*a)->fg));
+    *a = a_max;
     (*a)->fg = tree->fg;
     (*a)->fd = tree->fd;
 
