@@ -36,6 +36,7 @@ Parameters parse_args(int argc, char* argv[]) {
     };
 
     int opt;
+    opterr = false;
 
     while ((opt = getopt(argc, argv, "hv")) != EOF) {
         switch (opt) {
@@ -47,6 +48,8 @@ Parameters parse_args(int argc, char* argv[]) {
             break;
 
         case '?':
+            fprintf(stderr, "L'option -%c n'existe pas.\n", optopt);
+            exit(EXIT_FAILURE);
         case 'h':
             print_help(argv[0]);
             exit(EXIT_SUCCESS);
@@ -68,7 +71,7 @@ Parameters parse_args(int argc, char* argv[]) {
 
 void print_help(char* name) {
     printf(
-        "Utilisation : %s [-OPTIONS] [fichier_texte] [fichier_filtre]\n"
+        "Utilisation : %s -vh [fichier_texte] [fichier_filtre]\n"
         "options :\n"
         "   -v : Verbeux, crée une représentation en .dot et .pdf des arbres "
         "construits\n"
@@ -103,6 +106,8 @@ int create_trees(Parameters params) {
 
     if (!cree_arbre(params.filename_texte, &texte) ||
         !cree_arbre(params.filename_filtre, &filtreur)) {
+        libere(&texte);
+        libere(&filtreur);
         return 0;
     }
 
