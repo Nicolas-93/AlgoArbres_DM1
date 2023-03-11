@@ -12,7 +12,7 @@ SOURCES=$(wildcard $(SRC_DIR)/*.c)
 HEADERS=$(wildcard $(INC_DIR)/*.h)
 PROGS=$(patsubst %, $(BUILD_DIR)/%, test_ABR filtrage)
 OBJS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
-CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf texte.txt filtre.txt
+CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile texte.txt filtre.txt README.md
 #{en_commun, texte, filtrage, filtre}{.pdf, .dot} test_ABR{.pdf, .dot}
 PRODUITS=en_commun.pdf texte.pdf filtrage.pdf filtre.pdf en_commun.dot texte.dot filtrage.dot filtre.dot test_ABR.pdf test_ABR.dot
 # $(info $(PROGS))
