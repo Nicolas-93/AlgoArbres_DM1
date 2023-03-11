@@ -14,8 +14,8 @@ Arbre alloue_noeud(Element val) {
     if ((n = malloc(sizeof(Noeud)))) {
         n->fg = NULL;
         n->fd = NULL;
-        n->valeur = val;
     }
+    n->valeur = strdup(val);
     return n;
 }
 
@@ -184,7 +184,7 @@ Noeud* ajout(Arbre* a, Element n) {
         return *a;
     }
     if (EQUALS((*a)->valeur, n))
-        return NULL;
+        return *a;
     if (LESS_THAN(n, (*a)->valeur))
         return ajout(&LEFT_NODE(*a), n);
     else
@@ -244,7 +244,6 @@ int cree_arbre(const char* nom, Arbre* a) {
         return 0;
 
     bool memerr = false;
-    char* mot;
     char* line = NULL;
     size_t len_buf = 0;
     ssize_t len_line;
@@ -253,13 +252,9 @@ int cree_arbre(const char* nom, Arbre* a) {
         for (char* token = strtok(line, SEPARATORS);
              token;
              token = strtok(NULL, SEPARATORS)) {
-            mot = strdup(token);
-            if (!mot) {
+            if (!ajout(a, token)) {
                 memerr = true;
                 break;
-            }
-            if (!ajout(a, mot)) {
-                free(mot);
             }
         }
         if (memerr)

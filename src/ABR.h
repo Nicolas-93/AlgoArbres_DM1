@@ -212,13 +212,12 @@ Arbre extract_max(Arbre* a);
 bool appartient(Arbre a, Element n);
 
 /**
- * @brief Ajoute un élément à un arbre binaire de recherche.
- * Si l'élément existe déjà, il n'est pas ajouté, et aucune allocation
- * est réalisée.
+ * @brief Ajoute un mot à un arbre binaire de recherche.
+ * Si l'élément existe déjà, son adresse est renvoyée
  * @param a 
  * @param n L'élément à ajouter.
- * @return Noeud* Adresse du noeud nouvellement créé, ou NULL si l'élément
- * existe déjà.
+ * @return Noeud* Adresse du noeud nouvellement créé, ou l'adresse
+ * de l'élément existant, sinon NULL en cas d'erreur d'allocation
  */
 Noeud* ajout(Arbre* a, Element n);
 
@@ -238,7 +237,7 @@ Arbre suppression(Arbre* a, Element n);
  *
  * @param nom Le nom du fichier à lire.
  * @param a L'arbre à remplir.
- * @return 0 en cas d'erreur d'ouverture du fichier, -1 en cas d'erreur
+ * @return 0 en cas d'erreur d'ouverture du fichier, 0 en cas d'erreur
  * d'allocation, 1 sinon
  */
 int cree_arbre(const char* nom, Arbre* a);

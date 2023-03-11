@@ -57,9 +57,8 @@ Arbre interactive_build_tree() {
         } else if (n_read == 2) {
             switch (op) {
             case 'a':
-                if (!ajout(&tree, mot)) {
-                    free(mot);
-                }
+                ajout(&tree, mot);
+                free(mot);
                 break;
             case 'd':
                 node = suppression(&tree, mot);

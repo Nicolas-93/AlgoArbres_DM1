@@ -78,20 +78,14 @@ void print_help(char* name) {
 
 int filtre(Arbre* a, const Arbre filtreur, Arbre* utilises) {
     Noeud* found;
-    Element e;
 
     if (IS_EMPTY_TREE(*a) || IS_EMPTY_TREE(filtreur)) {
         return 0;
     }
 
     if ((found = suppression(a, filtreur->valeur))) {
-        e = found->valeur;
-        free(found);
-        // Si un mot était déjà dans utilises, on libere
-        // celui récupéré
-        if (!ajout(utilises, e)) {
-            free(e);
-        }
+        ajout(utilises, found->valeur);
+        libere_noeud(found);
     }
 
     filtre(a, filtreur->fg, utilises);
