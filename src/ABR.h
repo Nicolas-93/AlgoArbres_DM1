@@ -137,7 +137,7 @@ void print_stats(Arbre a);
  * @param f Fichier sur lequel écrire le parcours
  * @param format Chaine de formatage devant contenir un %s
  */
-void ArbreB_parcours_prefix(Arbre a, FILE* f, const char* format);
+void parcours_prefixe(Arbre a, FILE* f, const char* format);
 
 /**
  * @brief Parcours un arbre en infixe.
@@ -146,7 +146,7 @@ void ArbreB_parcours_prefix(Arbre a, FILE* f, const char* format);
  * @param f Fichier sur lequel écrire le parcours
  * @param format Chaine de formatage devant contenir un %s
  */
-void ArbreB_parcours_infix(Arbre a, FILE* f, const char* format);
+void parcours_infixe(Arbre a, FILE* f, const char* format);
 
 /**
  * @brief Parcours un arbre en postfixe.
@@ -155,7 +155,7 @@ void ArbreB_parcours_infix(Arbre a, FILE* f, const char* format);
  * @param f Fichier sur lequel écrire le parcours
  * @param format Chaine de formatage devant contenir un %s
  */
-void ArbreB_parcours_postfix(Arbre a, FILE* f, const char* format);
+void parcours_postfix(Arbre a, FILE* f, const char* format);
 
 /**
  * @brief Affiche un arbre sous forme d'une liste, selon
@@ -230,7 +230,7 @@ Noeud* ajout(Arbre* a, Element n);
  * @return Arbre L'arbre résultant de la suppression, ou NULL
  * si l'élément n'existe pas.
  */
-Arbre supprime(Arbre* a, Element n);
+Arbre suppression(Arbre* a, Element n);
 
 /**
  * @brief Crée un arbre avec un fichier contenant des mots séparés par des

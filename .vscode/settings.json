@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "queue.h": "c",
+        "array": "c",
+        "compare": "c",
+        "functional": "c",
+        "ostream": "c",
+        "ranges": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "string.h": "c",
+        "random": "c",
+        "arbrebinairerecherche.h": "c",
+        "arbrebinaire.h": "c",
+        "stdlib.h": "c",
+        "abr.h": "c"
+    }
+}

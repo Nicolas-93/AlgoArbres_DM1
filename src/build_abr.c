@@ -39,7 +39,7 @@ Arbre interactive_build_tree() {
     size_t buffer_size = 0;
 
     while (1) {
-        dessine("test", tree);
+        dessine("build_abr", tree);
         mot = malloc(256 * sizeof(char));
 
         printf(">>> ");
@@ -51,7 +51,7 @@ Arbre interactive_build_tree() {
         } else if (n_read == 1) {
             switch (op) {
             case 'p':
-                ArbreB_parcours_infix(tree, stdout, "%s\n");
+                parcours_infixe(tree, stdout, "%s\n");
                 break;
             }
         } else if (n_read == 2) {
@@ -62,7 +62,7 @@ Arbre interactive_build_tree() {
                 }
                 break;
             case 'd':
-                node = supprime(&tree, mot);
+                node = suppression(&tree, mot);
                 libere_noeud(node);
                 break;
             default:

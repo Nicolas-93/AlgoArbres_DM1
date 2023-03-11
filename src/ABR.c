@@ -110,31 +110,31 @@ void print_stats(Arbre a) {
         max(a));
 }
 
-void ArbreB_parcours_prefix(Arbre a, FILE* f, const char* format) {
+void parcours_prefixe(Arbre a, FILE* f, const char* format) {
     if (IS_EMPTY_TREE(a)) {
         return;
     }
 
     fprintf(f, format, a->valeur);
-    ArbreB_parcours_prefix(a->fg, f, format);
-    ArbreB_parcours_prefix(a->fd, f, format);
+    parcours_prefixe(a->fg, f, format);
+    parcours_prefixe(a->fd, f, format);
 }
 
-void ArbreB_parcours_infix(Arbre a, FILE* f, const char* format) {
+void parcours_infixe(Arbre a, FILE* f, const char* format) {
     if (IS_EMPTY_TREE(a))
         return;
 
-    ArbreB_parcours_infix(a->fg, f, format);
+    parcours_infixe(a->fg, f, format);
     fprintf(f, format, a->valeur);
-    ArbreB_parcours_infix(a->fd, f, format);
+    parcours_infixe(a->fd, f, format);
 }
 
-void ArbreB_parcours_postfix(Arbre a, FILE* f, const char* format) {
+void parcours_postfix(Arbre a, FILE* f, const char* format) {
     if (IS_EMPTY_TREE(a))
         return;
 
-    ArbreB_parcours_postfix(a->fg, f, format);
-    ArbreB_parcours_postfix(a->fd, f, format);
+    parcours_postfix(a->fg, f, format);
+    parcours_postfix(a->fd, f, format);
     fprintf(f, format, a->valeur);
 }
 
@@ -191,14 +191,14 @@ Noeud* ajout(Arbre* a, Element n) {
         return ajout(&RIGHT_NODE(*a), n);
 }
 
-Arbre supprime(Arbre* a, Element n) {
+Arbre suppression(Arbre* a, Element n) {
     Arbre tree = *a;
     if (IS_EMPTY_TREE(tree))
         return NULL;
     if (LESS_THAN(n, tree->valeur))
-        return supprime(&((*a)->fg), n);
+        return suppression(&((*a)->fg), n);
     if (GREATHER_THAN(n, tree->valeur))
-        return supprime(&((*a)->fd), n);
+        return suppression(&((*a)->fd), n);
     // A partir d'ici tree->a == n :
 
     // Cas simple où les deux sous arbres sont nuls
@@ -250,7 +250,8 @@ int cree_arbre(const char* nom, Arbre* a) {
     ssize_t len_line;
 
     while ((len_line = getline(&line, &len_buf, f)) != EOF) {
-        for (char* token = strtok(line, SEPARATORS); token;
+        for (char* token = strtok(line, SEPARATORS);
+             token;
              token = strtok(NULL, SEPARATORS)) {
             mot = strdup(token);
             if (!mot) {
