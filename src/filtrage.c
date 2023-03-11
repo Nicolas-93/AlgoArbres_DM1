@@ -84,8 +84,6 @@ int filtre(Arbre* a, const Arbre filtreur, Arbre* utilises) {
         return 0;
     }
 
-    filtre(a, filtreur->fg, utilises);
-
     if ((found = suppression(a, filtreur->valeur))) {
         e = found->valeur;
         free(found);
@@ -96,6 +94,7 @@ int filtre(Arbre* a, const Arbre filtreur, Arbre* utilises) {
         }
     }
 
+    filtre(a, filtreur->fg, utilises);
     filtre(a, filtreur->fd, utilises);
 
     return 1;
