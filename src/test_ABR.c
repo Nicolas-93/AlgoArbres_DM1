@@ -39,7 +39,7 @@ Arbre interactive_build_tree() {
     size_t buffer_size = 0;
 
     while (1) {
-        dessine("build_abr", tree);
+        dessine("test_ABR", tree);
         mot = malloc(256 * sizeof(char));
 
         printf(">>> ");

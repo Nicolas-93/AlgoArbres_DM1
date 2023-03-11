@@ -10,22 +10,22 @@ NOM_ZIP=TP$(DM_N)_SEBAN_POUYANFAR.zip
 
 SOURCES=$(wildcard $(SRC_DIR)/*.c)
 HEADERS=$(wildcard $(INC_DIR)/*.h)
-PROGS=$(patsubst %, $(BUILD_DIR)/%, build_abr filtrage)
+PROGS=$(patsubst %, $(BUILD_DIR)/%, test_ABR filtrage)
 OBJS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
-CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf
-#{en_commun, texte, filtrage, filtre}{.pdf, .dot} build_abr{.pdf, .dot}
-PRODUITS=en_commun.pdf texte.pdf filtrage.pdf filtre.pdf en_commun.dot texte.dot filtrage.dot filtre.dot build_abr.pdf build_abr.dot
+CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf texte.txt filtre.txt
+#{en_commun, texte, filtrage, filtre}{.pdf, .dot} test_ABR{.pdf, .dot}
+PRODUITS=en_commun.pdf texte.pdf filtrage.pdf filtre.pdf en_commun.dot texte.dot filtrage.dot filtre.dot test_ABR.pdf test_ABR.dot
 # $(info $(PROGS))
 
-all: $(BUILD_DIR)/build_abr $(BUILD_DIR)/filtrage 
+all: $(BUILD_DIR)/test_ABR $(BUILD_DIR)/filtrage 
 
-$(BUILD_DIR)/build_abr: $(patsubst %, ./$(BUILD_DIR)/%, build_abr.o ABR.o)
+$(BUILD_DIR)/test_ABR: $(patsubst %, ./$(BUILD_DIR)/%, test_ABR.o ABR.o)
 	$(CC) $^ -o $@ $(LIBS)
 $(BUILD_DIR)/filtrage: $(patsubst %, ./$(BUILD_DIR)/%, filtrage.o ABR.o)
 	$(CC) $^ -o $@ $(LIBS)
 
 filtrage.o: filtrage.c ABR.h
-build_abr.o: build_abr.c ABR.h
+test_ABR.o: test_ABR.c ABR.h
 ABR.o: ABR.c ABR.h
 
 # Création des fichiers objets à partir des fichiers sources
