@@ -13,6 +13,8 @@ HEADERS=$(wildcard $(INC_DIR)/*.h)
 PROGS=$(patsubst %, $(BUILD_DIR)/%, build_abr filtrage)
 OBJS=$(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
 CONTENU_ZIP=$(SRC_DIR) $(INC_DIR) .clang-format .clang-tidy Makefile rapport.pdf
+#{en_commun, texte, filtrage, filtre}{.pdf, .dot} build_abr{.pdf, .dot}
+PRODUITS=en_commun.pdf texte.pdf filtrage.pdf filtre.pdf en_commun.dot texte.dot filtrage.dot filtre.dot build_abr.pdf build_abr.dot
 # $(info $(PROGS))
 
 all: $(BUILD_DIR)/build_abr $(BUILD_DIR)/filtrage 
@@ -35,8 +37,14 @@ format: $(SOURCES) $(HEADERS)
 	clang-format -i --style=file $?
 	clang-tidy --fix $?
 
+clean_outputs:
+	rm -f $(PRODUITS)
+
 clean:
-	rm -f $(PROGS) $(OBJS)
+	rm -f $(OBJS)
+
+mrproper: clean clean_outputs 
+	rm -f $(PROGS)
 	rm -f $(NOM_ZIP)
 
 zip:
